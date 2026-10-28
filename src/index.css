@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens copied from the reference's computed .br-root / .br-vars rules. */
+.br-root,
+.br-vars {
+  --br-bg: oklch(0.25 0.085 275);
+  --br-fg: oklch(0.94 0.025 55);
+  --br-card: oklch(0.29 0.085 275);
+  --br-primary: oklch(0.8 0.095 35);
+  --br-primary-fg: oklch(0.22 0.08 275);
+  --br-gold: oklch(0.82 0.085 45);
+  --br-gold-deep: oklch(0.74 0.11 22);
+  --br-night: oklch(0.18 0.07 275);
+  --br-gradient-gold: linear-gradient(135deg, oklch(0.86 0.08 55), oklch(0.8 0.1 35), oklch(0.72 0.12 10));
+  --br-shadow-royal: 0 20px 50px -20px oklch(0.08 0.04 275 / 0.85);
+}
+html,
+body {
+  background: oklch(0.25 0.085 275);
+}
+.br-root {
+  background-color: var(--br-bg);
+  color: var(--br-fg);
+  font-family: "Cormorant Garamond", serif;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+}
+.br-display { font-family: "Cinzel Decorative", Cinzel, serif; }
+.br-name { font-family: Cinzel, serif; }
+.br-serif { font-family: "Cormorant Garamond", serif; }
+.br-script { font-family: "Great Vibes", cursive; font-weight: 400; }
+.br-event { font-family: "Dancing Script", "Great Vibes", cursive; }
+.br-card-font { font-family: "Source Sans 3", Inter, sans-serif; }
+.br-bg-gold-grad { background: var(--br-gradient-gold); }
+
+@layer utilities {
+  .br-shadow-royal {
+    --tw-shadow: var(--br-shadow-royal);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+}
+
+/* Gujarati page: each English face is swapped for a Gujarati one with a similar role.
+   Mogra = decorative script, Noto Serif Gujarati = engraved headings, Rasa = body serif,
+   Shrikhand = festive ceremony names, Farsan = playful accents, Hind Vadodara = UI labels. */
+.lang-gu .br-root { font-family: Rasa, "Cormorant Garamond", serif; }
+.lang-gu .br-script { font-family: Mogra, "Great Vibes", cursive; }
+.lang-gu .br-display,
+.lang-gu .br-name { font-family: "Noto Serif Gujarati", Cinzel, serif; font-weight: 600; }
+.lang-gu .br-serif,
+.lang-gu .font-cormorant { font-family: Rasa, "Cormorant Garamond", serif; }
+.lang-gu .br-event,
+.lang-gu .font-cinzel-decorative { font-family: Shrikhand, "Dancing Script", cursive; font-weight: 400; }
+.lang-gu .font-playfair { font-family: Farsan, "Playfair Display", serif; font-weight: 400; }
+.lang-gu .br-card-font,
+.lang-gu .font-inter { font-family: "Hind Vadodara", Inter, sans-serif; }
+/* Wide tracking and capitals are Latin conventions; tracking also breaks Gujarati letter joins. */
+.lang-gu [class*="tracking-"] { letter-spacing: 0.02em !important; }
+.lang-gu .uppercase { text-transform: none; }
+/* The "&" badges keep their Latin glyph (Mogra's ampersand reads like a Gujarati letter). */
+.lang-gu .br-amp { font-family: "Cormorant Garamond", serif; }
+.lang-gu .br-script.br-amp { font-family: "Great Vibes", cursive; }
