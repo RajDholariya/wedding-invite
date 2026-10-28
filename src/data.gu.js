@@ -4,8 +4,8 @@ import * as en from "./data.js";
 export * from "./data.js";
 
 export const couple = {
-  groom: { ...en.couple.groom, first: "રાજ", full: "રાજ ઢોલરિયા", parents: "શ્રી મિલનભાઈ ઢોલરિયા અને શ્રીમતી રેખાબેન ઢોલરિયાના સુપુત્ર" },
-  bride: { ...en.couple.bride, first: "શ્યામા", full: "શ્યામા પટાડિયા", parents: "શ્રી નિપુલભાઈ પટાડિયા અને શ્રીમતી રૂપલબેન પટાડિયાની સુપુત્રી" },
+  groom: { ...en.couple.groom, first: "રાજ", full: "", parents: "શ્રી મિલનભાઈ ઢોલરિયા અને શ્રીમતી રેખાબેન ઢોલરિયાના સુપુત્ર" },
+  bride: { ...en.couple.bride, first: "શ્યામા", full: "", parents: "શ્રી નિપુલભાઈ પટાડિયા અને શ્રીમતી રૂપલબેન પટાડિયાની સુપુત્રી" },
 };
 
 export const coupleLine = `${couple.groom.first} અને ${couple.bride.first}`;

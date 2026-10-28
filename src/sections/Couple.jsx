@@ -278,10 +278,14 @@ function PartnerCard({ role, name, parents, portrait, x }) {
                 />
                 <Shine delay={x > 0 ? 2.5 : 1} />
                 <p className="br-script relative text-2xl leading-none text-[var(--br-gold-deep)] md:text-4xl">{role}</p>
-                <PlaqueDivider />
-                <h3 className="br-name relative break-words text-lg font-semibold uppercase leading-tight tracking-[0.12em] text-[oklch(0.3_0.1_270)] md:text-3xl lg:text-[2.1rem]">
-                  {name}
-                </h3>
+                {name && (
+                  <>
+                    <PlaqueDivider />
+                    <h3 className="br-name relative break-words text-lg font-semibold uppercase leading-tight tracking-[0.12em] text-[oklch(0.3_0.1_270)] md:text-3xl lg:text-[2.1rem]">
+                      {name}
+                    </h3>
+                  </>
+                )}
                 {parents && (
                   <>
                     <PlaqueDivider />
