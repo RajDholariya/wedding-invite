@@ -196,7 +196,7 @@ export default function Hero({ sectionRef, first, second, shortDate, dateLabel, 
                 </p>
               )}
               {placeLabel && (
-                <p className="br-display relative mt-1 break-words text-[0.7rem] uppercase tracking-[0.3em] text-br-gold sm:text-xs">{placeLabel}</p>
+                <p className="br-display relative mt-1.5 break-words text-[0.78rem] font-semibold uppercase tracking-[0.26em] text-[#ffe3a3] [text-shadow:0_0_10px_rgba(255,214,140,0.45)] sm:text-sm">{placeLabel}</p>
               )}
             </motion.div>
           </motion.div>

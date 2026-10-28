@@ -21,7 +21,7 @@ export const weddingDate = "2027-02-02";
 export const weddingTime = "7:00 PM";
 export const shortDate = "2 February 2027";
 export const dateLabel = "Tuesday, 2 February 2027";
-export const placeLabel = "Shubh Vivah Banquet Hall";
+export const placeLabel = "Madhuvan Farm, Junagadh";
 export const hashtag = "#RajWedsShyama";
 // Local wall-clock target, as the reference builds it from date + time.
 export const countdownTo = new Date(2027, 1, 2, 19, 0).getTime();

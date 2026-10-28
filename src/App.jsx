@@ -1,4 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
 import {
   AnimatePresence,
   MotionConfig,
@@ -28,6 +30,20 @@ export default function App({ d, t }) {
     restDelta: 0.001,
   });
   const { groom, bride } = d.couple;
+
+  // Smooth mouse-wheel scrolling on desktop once the gate is open; touch scrolling stays native.
+  useEffect(() => {
+    if (!open || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, syncTouch: false });
+    let raf = requestAnimationFrame(function loop(time) {
+      lenis.raf(time);
+      raf = requestAnimationFrame(loop);
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      lenis.destroy();
+    };
+  }, [open]);
 
   return (
     <LangProvider value={t}>
