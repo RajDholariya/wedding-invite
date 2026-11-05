@@ -22,7 +22,36 @@ import { BenchFooter, FallingBlossoms, Farewell } from "./sections/Closing.jsx";
 
 export default function App({ d, t }) {
   const [open, setOpen] = useState(false);
+  // The gate stays on top until the hero image has painted, so the hand-off never flashes the bare background.
+  const [heroReady, setHeroReady] = useState(false);
+  // The sections below the hero mount a moment later, so their work doesn't stutter the hand-off.
+  const [rest, setRest] = useState(false);
+  useEffect(() => {
+    if (!heroReady) return;
+    const id = setTimeout(() => setRest(true), 900);
+    return () => clearTimeout(id);
+  }, [heroReady]);
   const heroRef = useRef(null);
+  // Background music: must start inside the door-click gesture (browsers block autoplay), then fades in.
+  const audioRef = useRef(null);
+  const [muted, setMuted] = useState(false);
+  const startMusic = () => {
+    const a = audioRef.current;
+    if (!a) return;
+    a.volume = 0;
+    a.play().then(() => {
+      const t0 = performance.now();
+      const step = (now) => {
+        const k = Math.min((now - t0) / 4000, 1);
+        a.volume = 0.6 * k;
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }).catch(() => {});
+  };
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.muted = muted;
+  }, [muted]);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
     stiffness: 90,
@@ -49,12 +78,14 @@ export default function App({ d, t }) {
     <LangProvider value={t}>
       <MotionConfig reducedMotion="user">
         <main className="br-root relative isolate min-h-screen overflow-x-clip">
+          <audio ref={audioRef} src={`${import.meta.env.BASE_URL}music/wedding.mp3`} loop preload="auto" />
           <AnimatePresence>
-            {!open && (
+            {!heroReady && (
               <Gate
                 first={groom.first}
                 second={bride.first}
                 onOpen={() => setOpen(true)}
+                onStart={startMusic}
               />
             )}
           </AnimatePresence>
@@ -65,6 +96,14 @@ export default function App({ d, t }) {
                 style={{ scaleX: progress }}
                 className="br-bg-gold-grad fixed inset-x-0 top-0 z-50 h-1 origin-left"
               />
+              <button
+                type="button"
+                onClick={() => setMuted((m) => !m)}
+                aria-label={muted ? "Play music" : "Mute music"}
+                className="br-card-font fixed left-3 top-3 z-50 rounded-full border border-br-gold/60 bg-br-night/80 px-3 py-1.5 text-sm text-br-gold shadow-lg backdrop-blur hover:bg-br-night"
+              >
+                {muted ? "♪ Off" : "♪ On"}
+              </button>
               <motion.a
                 href={t.switchHref}
                 lang={t.lang === "gu" ? "en" : "gu"}
@@ -83,7 +122,10 @@ export default function App({ d, t }) {
                 dateLabel={d.dateLabel}
                 placeLabel={d.placeLabel}
                 revealAlt={d.revealAlt}
+                onReady={() => requestAnimationFrame(() => requestAnimationFrame(() => setHeroReady(true)))}
               />
+              {rest && (
+              <>
               <ScrollScene>
                 <Countdown countdownTo={d.countdownTo} />
               </ScrollScene>
@@ -113,6 +155,8 @@ export default function App({ d, t }) {
                 />
               </ScrollScene>
               <BenchFooter />
+              </>
+              )}
             </>
           )}
         </main>

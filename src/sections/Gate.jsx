@@ -103,7 +103,7 @@ function GateTitles({ layout, first, second }) {
 }
 
 /** Full-screen padlocked palace gate. Tapping drops the lock, swings the doors and pushes through. */
-export default function Gate({ first, second, onOpen }) {
+export default function Gate({ first, second, onOpen, onStart }) {
   const t = useT();
   const g = useGateLayout();
   const [opening, setOpening] = useState(false);
@@ -130,8 +130,7 @@ export default function Gate({ first, second, onOpen }) {
   return (
     <motion.div
       className="fixed inset-0 z-50 overflow-hidden bg-br-night [container-type:size]"
-      exit={{ opacity: 0, filter: "blur(8px)" }}
-      transition={{ duration: 1, ease: "easeInOut" }}
+      exit={{ opacity: 0, transition: { duration: 0 } }}
     >
       {g && (
         <motion.div
@@ -288,6 +287,27 @@ export default function Gate({ first, second, onOpen }) {
           </AnimatePresence>
         </motion.div>
       )}
+      {/* full-resolution garden fades in over the push, so the 5.5x zoom never shows enlarged pixels;
+          it ends on the hero's first frame (scale 1.35, blur 8px) for a seamless hand-off */}
+      {g && opening && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2"
+          style={coverBox(g.reveal.aspect)}
+          initial={{ opacity: 0, filter: "blur(16px)" }}
+          animate={{ opacity: 1, filter: "blur(8px)" }}
+          transition={{ duration: T.done - T.pushAt - 0.5, delay: T.pushAt + 0.5, ease: "easeInOut" }}
+        >
+          <motion.img
+            src={g.reveal.image}
+            alt=""
+            className="absolute inset-0 h-full w-full"
+            initial={{ scale: 1.9 }}
+            animate={{ scale: 1.35 }}
+            transition={{ duration: T.done - T.pushAt - 0.5, delay: T.pushAt + 0.5, ease: [0.2, 0, 0.2, 1] }}
+          />
+        </motion.div>
+      )}
       {/* titles sit outside the zooming artboard so the zoom never pushes them off-screen */}
       {g && loaded && (
         <motion.div
@@ -326,6 +346,7 @@ export default function Gate({ first, second, onOpen }) {
           onClick={() => {
             if (opening) return;
             setOpening(true);
+            onStart?.();
             timer.current = setTimeout(onOpen, 1000 * T.done);
           }}
           aria-label={t.gateAria}

@@ -108,7 +108,7 @@ function Sheen() {
   );
 }
 
-export default function Hero({ sectionRef, first, second, shortDate, dateLabel, placeLabel, revealAlt }) {
+export default function Hero({ sectionRef, first, second, shortDate, dateLabel, placeLabel, revealAlt, onReady }) {
   const g = useGateLayout();
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
@@ -117,7 +117,7 @@ export default function Hero({ sectionRef, first, second, shortDate, dateLabel, 
 
   return (
     <section ref={sectionRef} className="relative flex flex-col items-center">
-      <div className="relative h-[100svh] w-full overflow-hidden bg-br-night [container-type:size]">
+      <div data-hero-frame className="relative h-[100svh] w-full overflow-hidden bg-br-night [container-type:size]">
         {g && (
           <motion.div key={g.layout} className="absolute left-1/2 top-1/2 [container-type:inline-size]" style={coverBox(g.reveal.aspect)}>
             {/* the blur lives on its own layer and is cleared once sharp, so the long zoom isn't rasterised through a filter */}
@@ -131,6 +131,8 @@ export default function Hero({ sectionRef, first, second, shortDate, dateLabel, 
               <motion.img
                 src={g.reveal.image}
                 alt={revealAlt}
+                ref={(el) => el?.complete && onReady?.()}
+                onLoad={() => onReady?.()}
                 className="absolute inset-0 h-full w-full"
                 initial={{ scale: 1.35 }}
                 animate={{ scale: [1.35, 1, 1.05] }}
@@ -164,6 +166,24 @@ export default function Hero({ sectionRef, first, second, shortDate, dateLabel, 
           ))}
         </div>
         <Petals />
+        <div className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center">
+        <motion.button
+          type="button"
+          aria-label="Scroll to next section"
+          onClick={(e) => {
+            // scroll just past the hero image, to the date & venue card right below it
+            const hero = e.currentTarget.closest("[data-hero-frame]");
+            const top = hero ? hero.getBoundingClientRect().bottom + window.scrollY : window.innerHeight;
+            window.scrollTo({ top, behavior: "smooth" });
+          }}
+          className="pointer-events-auto cursor-pointer rounded-full p-2 text-[oklch(0.94_0.03_70)] drop-shadow-[0_0_6px_rgba(0,0,0,0.6)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 4, 0] }}
+          transition={{ opacity: { delay: 4.5, duration: 1 }, y: { duration: 1.6, repeat: Infinity, ease: "easeInOut" } }}
+        >
+          <ChevronDown className="h-7 w-7" />
+        </motion.button>
+        </div>
       </div>
 
       {(dateLabel || placeLabel) && (
