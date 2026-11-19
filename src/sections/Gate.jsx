@@ -132,6 +132,8 @@ export default function Gate({ first, second, onOpen, onStart }) {
       className="fixed inset-0 z-50 overflow-hidden bg-br-night [container-type:size]"
       exit={{ opacity: 0, transition: { duration: 0 } }}
     >
+      {/* page heading for screen readers & SEO while the gate is closed (the hero's h1 takes over once open) */}
+      <h1 className="sr-only">{`${first} & ${second} — ${t.weddingCeremony}`}</h1>
       {g && (
         <motion.div
           key={g.image}

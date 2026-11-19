@@ -124,13 +124,17 @@ export const events = [
 
 
 export const gallery = [
-  { src: asset("gallery/couple.jpg"), caption: "The Royal Couple" },
-  { src: asset("gallery/courtyard.jpg"), caption: "The Palace Courtyard" },
-  { src: asset("gallery/mandap.jpg"), caption: "The Wedding Mandap" },
-  { src: asset("gallery/haldi.jpg"), caption: "Haldi Morning" },
-  { src: asset("gallery/lake.jpg"), caption: "Lakeside Evening" },
-  { src: asset("gallery/jharokha.jpg"), caption: "The Jharokha" },
-  { src: asset("gallery/gate.jpg"), caption: "The Palace Gates" },
+  { src: asset("gallery/photo-01.webp"), caption: "Together, Always" },
+  { src: asset("gallery/photo-08.webp"), caption: "Dance of Love" },
+  { src: asset("gallery/photo-02.webp"), caption: "Hand in Hand" },
+  { src: asset("gallery/photo-07.webp"), caption: "A Royal Pause" },
+  { src: asset("gallery/photo-03.webp"), caption: "A Quiet Embrace" },
+  { src: asset("gallery/photo-09.webp"), caption: "By the Fountain" },
+  { src: asset("gallery/photo-04.webp"), caption: "Looking at You" },
+  { src: asset("gallery/photo-10.webp"), caption: "Stolen Glances" },
+  { src: asset("gallery/photo-05.webp"), caption: "Side by Side" },
+  { src: asset("gallery/photo-11.webp"), caption: "Hold My Hand" },
+  { src: asset("gallery/photo-06.webp"), caption: "Lost in Each Other" },
 ];
 
 export const wishes = [
