@@ -253,9 +253,11 @@ export default function Gate({ first, second, onOpen, onStart }) {
                   {[0, 0.8, 1.6].map((d) => (
                     <motion.span
                       key={d}
-                      className="absolute inset-0 rounded-full border-2 border-br-gold shadow-[0_0_18px_var(--br-gold)]"
-                      animate={{ scale: [0.7, 1.9], opacity: [0.95, 0] }}
-                      transition={{ duration: 2.4, repeat: Infinity, delay: d, ease: "easeOut" }}
+                      className="absolute inset-0 rounded-full border-2 border-br-gold/80 shadow-[0_0_14px_var(--br-gold)]"
+                      // start hidden and fade in at each cycle's start, so a ring never pops on at full strength
+                      initial={{ scale: 0.7, opacity: 0 }}
+                      animate={{ scale: [0.7, 1.9], opacity: [0, 0.85, 0] }}
+                      transition={{ duration: 2.4, repeat: Infinity, delay: d, ease: "easeOut", times: [0, 0.2, 1] }}
                     />
                   ))}
                 </span>
