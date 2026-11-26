@@ -165,14 +165,14 @@ function ArchPortrait({ src, alt, focus, delay }) {
       </div>
       <div className="br-bg-gold-grad" style={layer("5.5% 6.5% 4% 6.5%")} />
       <div className="overflow-hidden bg-[oklch(0.95_0.03_80)]" style={layer("6.3% 7.3% 4.8% 7.3%")}>
-        <motion.img
+        {/* no zoom animation here: an animated scale makes browsers rasterise the photo at low resolution (blurry) */}
+        <img
           src={src}
           alt={alt}
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
-          style={{ objectPosition: focus, transformOrigin: focus }}
-          animate={{ scale: [1, 1.07, 1] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay }}
+          style={{ objectPosition: focus }}
         />
         <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/5 bg-gradient-to-t from-[oklch(0.3_0.08_275/0.45)] to-transparent" />
         <Shine delay={delay} />
