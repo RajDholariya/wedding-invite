@@ -55,54 +55,29 @@ const T = { unlockAt: 0.8, swingAt: 1.1, swing: 2.1, pushAt: 2.3, push: 2.4, don
 const vignetteTimes = [0, 0.9 / T.done, (T.done - 0.6) / T.done, 1];
 
 const titleLayout = {
-  landscape: { title: "1.2%", names: "36.5%", size: { small: 2.4, big: 5.2, names: 3.7 } },
-  portrait: { title: "2.4%", names: "31%", size: { small: 5.2, big: 11.5, names: 8.6 } },
+  landscape: { top: "31%", size: 15 },
+  portrait: { top: "29%", size: 44 },
 };
 const goldText =
   "bg-gradient-to-b from-[oklch(0.95_0.07_90)] via-[oklch(0.84_0.12_80)] to-[oklch(0.7_0.12_65)] bg-clip-text text-transparent drop-shadow-[0_0.05em_0.15em_oklch(0.2_0.05_40/0.7)]";
 
-function GateTitles({ layout, first, second }) {
-  const t = useT();
+function GateTitles({ layout }) {
   const l = titleLayout[layout];
-  const cq = (n) => `${n}cqw`;
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
-      <div className="absolute inset-x-0 flex flex-col items-center" style={{ top: l.title }}>
-        <motion.span
-          className={`br-serif leading-none ${goldText}`}
-          style={{ fontSize: cq(l.size.small) }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease }}
-        >
-          {t.gateThe}
-        </motion.span>
-        <span className={`br-script leading-tight ${goldText}`} style={{ fontSize: cq(l.size.big) }}>
-          <Wipe delay={0.8}>{t.gateWedding}</Wipe>
-        </span>
-        <div className="flex items-center gap-[0.4em]" style={{ fontSize: cq(0.6 * l.size.small) }}>
-          <Rule delay={1.6} />
-          <HeartAmp delay={1.7} className="text-[0.9em]" />
-          <Rule delay={1.6} flip />
-        </div>
-      </div>
-      <div
-        className="br-script absolute inset-x-0 flex flex-col items-center leading-[1.05] text-[oklch(0.84_0.07_25)] [text-shadow:0_0_0.35em_oklch(0.75_0.1_20/0.5)]"
-        style={{ top: l.names, fontSize: cq(l.size.names) }}
-      >
-        <Letters text={first} delay={1.4} />
-        <HeartAmp delay={2} className="text-[0.42em]" />
-        <Letters text={second} delay={2.1} />
-        <div className="mt-[0.15em] flex items-center gap-[0.3em] text-[0.3em]">
-          <Rule delay={2.6} />
-          <Rule delay={2.6} flip />
-        </div>
-      </div>
+      <motion.img
+        src={`${import.meta.env.BASE_URL}logo.webp`}
+        alt=""
+        className="absolute left-1/2 aspect-square drop-shadow-[0_0_18px_rgba(255,214,140,0.45)]"
+        style={{ top: l.top, width: `${l.size}cqw`, x: "-50%" }}
+        initial={{ opacity: 0, scale: 0.7, rotate: -15 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 1.8, delay: 0.6, ease }}
+      />
     </div>
   );
 }
 
-/** Full-screen padlocked palace gate. Tapping drops the lock, swings the doors and pushes through. */
 export default function Gate({ first, second, onOpen, onStart }) {
   const t = useT();
   const g = useGateLayout();
@@ -318,7 +293,7 @@ export default function Gate({ first, second, onOpen, onStart }) {
           animate={{ opacity: opening ? 0 : 1 }}
           transition={{ duration: 0.6 }}
         >
-          <GateTitles layout={g.layout} first={first} second={second} />
+          <GateTitles layout={g.layout} />
         </motion.div>
       )}
 

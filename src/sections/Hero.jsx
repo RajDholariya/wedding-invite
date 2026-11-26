@@ -50,17 +50,6 @@ function HeroTitles({ layout, first, second, date }) {
         <HeartAmp delay={2.5} className={l.stacked ? "text-[0.42em]" : "text-[0.45em]"} />
         <Letters text={second} delay={2.6} />
       </h1>
-      {date && (
-        <motion.p
-          className={`br-serif mt-[0.3em] font-semibold uppercase ${cream}`}
-          style={{ fontSize: cq(l.size.date) }}
-          initial={{ opacity: 0, letterSpacing: "0.6em" }}
-          animate={{ opacity: 1, letterSpacing: "0.14em" }}
-          transition={{ duration: 1.8, delay: 3.2, ease }}
-        >
-          {date}
-        </motion.p>
-      )}
       {/* <p className={`br-script leading-tight ${blush}`} style={{ fontSize: cq(l.size.tagline) }}>
         <Wipe delay={3.7}>{t.togetherForever}</Wipe>
       </p> */}
